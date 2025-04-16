@@ -1,0 +1,28 @@
+:root {
+  --color-main: #1a2a33;
+  --color-secondary: #1f3641;
+  --color-gray: #a8bfc9;
+  --color-orange: #f2b137;
+  --color-orange-secondary: #ffc860;
+  --color-blue: #31c3bd;
+  --color-blue-secondary: #63e1e0;
+  --color-white: #dbe8ed;
+}
+
+body {
+  background-color: var(--color-main);
+  font-family: "Outfit", sans-serif;
+  color: var(--color-white);
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.pick-x {
+  fill: var(--color-white);
+}
