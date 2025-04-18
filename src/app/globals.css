@@ -1,0 +1,37 @@
+:root {
+  --color-dark-navy: #1a2a33;
+  --color-semi-dark-navy: #1f3641;
+  --color-light-blue: #31c3bd;
+  --color-light-blue-hover: #65e9e4;
+  --color-light-yellow: #f2b137;
+  --color-light-yellow-hover: #ffc860;
+  --color-silver: #a8bfc9;
+  --color-silver-hover: #dbe8ed;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-dark-navy);
+  color: var(--color-silver);
+}
+
+.heading-s {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-silver);
+}
+
+.heading-xs {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-silver);
+  opacity: 0.5;
+}
