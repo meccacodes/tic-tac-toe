@@ -145,3 +145,123 @@
   background-color: var(--color-light-blue-hover);
 }
 
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/GameBoard.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/* --color-dark-navy: #1a2a33;
+--color-semi-dark-navy: #1f3641;
+--color-light-blue: #31c3bd;
+--color-light-blue-hover: #65e9e4;
+--color-light-yellow: #f2b137;
+--color-light-yellow-hover: #ffc860;
+--color-silver: #a8bfc9;
+--color-silver-hover: #dbe8ed; */
+
+.GameBoard_container__F0XNe {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.GameBoard_header__pAroH {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.GameBoard_marks__uulnt {
+  display: flex;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.GameBoard_turn___3Ypm {
+  background: var(--color-semi-dark-navy);
+  padding: 8px 20px;
+  border-radius: 10px;
+  color: var(--color-silver);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.GameBoard_reset__nbTxa {
+  background: var(--color-silver);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--color-dark-navy);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.GameBoard_board__YuLnk {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  gap: 20px;
+  width: 100%;
+}
+
+.GameBoard_cell__hrfnn {
+  aspect-ratio: 1;
+  background: var(--color-semi-dark-navy);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: bold;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.GameBoard_x__hx0LE {
+  color: var(--color-light-blue);
+}
+
+.GameBoard_o__AgoGk {
+  color: var(--color-light-yellow);
+}
+
+.GameBoard_scores___oRwF {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  gap: 20px;
+  width: 100%;
+}
+
+.GameBoard_score__xpDPN {
+  padding: 12px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.GameBoard_score__xpDPN:nth-child(1) {
+  background: var(--color-light-blue);
+}
+
+.GameBoard_score__xpDPN:nth-child(2) {
+  background: var(--color-silver);
+}
+
+.GameBoard_score__xpDPN:nth-child(3) {
+  background: var(--color-light-yellow);
+}
+
+.GameBoard_label__slivK {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: var(--color-dark-navy);
+}
+
+.GameBoard_value__Qn6Mo {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-dark-navy);
+}
+

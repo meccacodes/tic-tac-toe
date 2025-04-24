@@ -30,6 +30,7 @@ body {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--color-silver);
+  text-align: center;
 }
 
 .heading-xs {
@@ -37,5 +38,6 @@ body {
   font-weight: 500;
   color: var(--color-silver);
   opacity: 0.5;
+  text-align: center;
 }
 

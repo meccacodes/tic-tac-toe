@@ -17,12 +17,10 @@ export default function NewGameMenu({ onGameStart }: NewGameMenuProps) {
 
   return (
     <main className={styles.newGameMenu}>
-      {/* Logo */}
       <div className={styles.logo}>
         <img src="./assets/logo.svg" alt="XO Logo" />
       </div>
 
-      {/* Pick mark section */}
       <div className={styles.pickPlayerMark}>
         <p className="heading-s">PICK PLAYER 1'S MARK</p>
         <div className={styles.markSelector}>
@@ -58,7 +56,6 @@ export default function NewGameMenu({ onGameStart }: NewGameMenuProps) {
         <p className="heading-xs">REMEMBER : X GOES FIRST</p>
       </div>
 
-      {/* Game mode buttons */}
       <div className={styles.newGameButtons}>
         <button
           className={`${pageStyles.buttonPrimary} ${pageStyles.yellow}`}
