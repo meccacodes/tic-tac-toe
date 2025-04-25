@@ -45,24 +45,14 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
       <div className={styles.header}>
         <div className={styles.marks}>
           <div className={styles.logo}>
-            <img src="./assets/logo.svg" alt="XO Logo" />
+            <img src="/assets/logo.svg" alt="XO Logo" />
           </div>
         </div>
         <div className={styles.turn}>
           <span>{playerTurn}'s TURN</span>
         </div>
         <button className={styles.reset} onClick={handleReset}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6s-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8s-3.58-8-8-8z"
-            />
-          </svg>
+          <img src="/assets/icon-restart.svg" alt="Reset" />
         </button>
       </div>
 
@@ -73,8 +63,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
             className={styles.cell}
             onClick={() => handleCellClick(index)}
           >
-            {cell === "X" && <span className={styles.x}>X</span>}
-            {cell === "O" && <span className={styles.o}>O</span>}
+            {cell === "X" && (
+              <img className={styles.x} src="/assets/icon-x.svg" alt="X" />
+            )}
+            {cell === "O" && (
+              <img className={styles.o} src="/assets/icon-o.svg" alt="O" />
+            )}
           </button>
         ))}
       </div>
