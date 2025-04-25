@@ -7,19 +7,37 @@ type GameBoardProps = {
 };
 
 const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
+  const [playerTurn, setPlayerTurn] = React.useState<string>(playerMark);
+  console.log(playerTurn);
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
-  console.log(board);
+
   const [scores, setScores] = React.useState({
-    x: 0,
-    ties: 0,
-    o: 0,
+    x: 3,
+    ties: 8,
+    o: 5,
   });
 
   const handleReset = () => {
     setBoard(Array(9).fill(null));
     location.reload();
+  };
+
+  const handleCellClick = (index: number) => {
+    console.log(board[index]);
+    if (board[index] !== null) return;
+    const newBoard = [...board];
+    newBoard[index] = playerTurn;
+    console.log(`playerMark before turn: ${playerTurn}`);
+    if (playerTurn === "X") {
+      setPlayerTurn("O");
+    } else {
+      setPlayerTurn("X");
+    }
+    console.log(`playerTurn after turn: ${playerTurn}`);
+    setBoard(newBoard);
+    console.log(newBoard);
   };
 
   return (
@@ -31,7 +49,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
           </div>
         </div>
         <div className={styles.turn}>
-          <span>{playerMark} TURN</span>
+          <span>{playerTurn}'s TURN</span>
         </div>
         <button className={styles.reset} onClick={handleReset}>
           <svg
@@ -50,7 +68,11 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
 
       <div className={styles.board}>
         {board.map((cell, index) => (
-          <button key={index} className={styles.cell}>
+          <button
+            key={index}
+            className={styles.cell}
+            onClick={() => handleCellClick(index)}
+          >
             {cell === "X" && <span className={styles.x}>X</span>}
             {cell === "O" && <span className={styles.o}>O</span>}
           </button>
@@ -59,7 +81,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
 
       <div className={styles.scores}>
         <div className={styles.score}>
-          <div className={styles.label}>X (YOU)</div>
+          <div className={styles.label}>
+            X ({gameMode === "CPU" ? "You" : "Player 1"})
+          </div>
           <div className={styles.value}>{scores.x}</div>
         </div>
         <div className={styles.score}>
