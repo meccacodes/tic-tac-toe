@@ -2,13 +2,12 @@ import React from "react";
 import styles from "./GameBoard.module.css";
 
 type GameBoardProps = {
-  playerMark: "X" | "O";
-  gameMode: "CPU" | "PLAYER";
+  player1Mark: "X" | "O";
+  gameMode: "CPU" | "PLAYER2";
 };
 
-const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
-  const [playerTurn, setPlayerTurn] = React.useState<string>(playerMark);
-  console.log(playerTurn);
+const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
+  const [playerTurn, setPlayerTurn] = React.useState<string>("X");
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
@@ -25,19 +24,18 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
   };
 
   const handleCellClick = (index: number) => {
-    console.log(board[index]);
     if (board[index] !== null) return;
     const newBoard = [...board];
     newBoard[index] = playerTurn;
-    console.log(`playerMark before turn: ${playerTurn}`);
+    console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
+    setBoard(newBoard);
+    console.log(`New Board: ${newBoard}`);
+
     if (playerTurn === "X") {
       setPlayerTurn("O");
     } else {
       setPlayerTurn("X");
     }
-    console.log(`playerTurn after turn: ${playerTurn}`);
-    setBoard(newBoard);
-    console.log(newBoard);
   };
 
   return (
@@ -76,7 +74,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
       <div className={styles.scores}>
         <div className={styles.score}>
           <div className={styles.label}>
-            X ({gameMode === "CPU" ? "You" : "Player 1"})
+            X ({player1Mark === "X" ? "You" : gameMode})
           </div>
           <div className={styles.value}>{scores.x}</div>
         </div>
@@ -86,7 +84,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
         </div>
         <div className={styles.score}>
           <div className={styles.label}>
-            O ({gameMode === "CPU" ? "CPU" : "Player 2"})
+            O ({player1Mark === "O" ? "YOU" : gameMode})
           </div>
           <div className={styles.value}>{scores.o}</div>
         </div>
