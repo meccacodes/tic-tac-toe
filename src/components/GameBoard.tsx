@@ -6,11 +6,26 @@ type GameBoardProps = {
   gameMode: "CPU" | "PLAYER2";
 };
 
+type Space = "X" | "O" | number;
+type InnerArray = [Space, Space, Space];
+type ArrayOfArrays = InnerArray[];
+
 const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const [playerTurn, setPlayerTurn] = React.useState<string>("X");
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
+
+  const [winningCombos, setWinningCombos] = React.useState<ArrayOfArrays>([
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ]);
 
   const [scores, setScores] = React.useState({
     x: 3,
@@ -26,6 +41,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const handleCellClick = (index: number) => {
     if (board[index] !== null) return;
     const newBoard = [...board];
+    console.log("Winning Combos : ", winningCombos);
     newBoard[index] = playerTurn;
     console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
     setBoard(newBoard);
