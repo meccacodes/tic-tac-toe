@@ -6,12 +6,13 @@ type GameBoardProps = {
   gameMode: "CPU" | "PLAYER2";
 };
 
+type mark = "X" | "O";
 type Space = "X" | "O" | number;
 type InnerArray = [Space, Space, Space];
 type ArrayOfArrays = InnerArray[];
 
 const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
-  const [playerTurn, setPlayerTurn] = React.useState<string>("X");
+  const [playerTurn, setPlayerTurn] = React.useState<mark>("X");
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
@@ -38,14 +39,41 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     location.reload();
   };
 
+  function updateWinningCombos(
+    wholeArray: ArrayOfArrays,
+    newSpace: number,
+    mark: "X" | "O"
+  ) {
+    wholeArray.forEach((innerArray, index) => {
+      innerArray.forEach((num, i) => {
+        if (num === newSpace) {
+          wholeArray[index][i] = mark;
+        }
+      });
+    });
+
+    return wholeArray;
+  }
+
   const handleCellClick = (index: number) => {
     if (board[index] !== null) return;
     const newBoard = [...board];
-    console.log("Winning Combos : ", winningCombos);
     newBoard[index] = playerTurn;
     console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
     setBoard(newBoard);
-    console.log(`New Board: ${newBoard}`);
+
+    const newWinningCombos = updateWinningCombos(
+      winningCombos,
+      index,
+      playerTurn
+    );
+    setWinningCombos(newWinningCombos);
+    console.log(
+      "After updating, new winning combos: ",
+      newWinningCombos,
+      " and the new game board: ",
+      newBoard
+    );
 
     if (playerTurn === "X") {
       setPlayerTurn("O");
