@@ -39,6 +39,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     location.reload();
   };
 
+  function eliminateCombos(wholeArray: ArrayOfArrays) {
+    return wholeArray.filter((innerArray) => {
+      return !(innerArray.includes("X") && innerArray.includes("O"));
+    });
+  }
+
   function updateWinningCombos(
     wholeArray: ArrayOfArrays,
     newSpace: number,
@@ -52,7 +58,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       });
     });
 
-    return wholeArray;
+    return eliminateCombos(wholeArray);
   }
 
   const handleCellClick = (index: number) => {
