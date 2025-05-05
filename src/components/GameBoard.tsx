@@ -29,9 +29,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   ]);
 
   const [scores, setScores] = React.useState({
-    x: 3,
-    ties: 8,
-    o: 5,
+    x: 0,
+    ties: 0,
+    o: 0,
   });
 
   const handleReset = () => {
