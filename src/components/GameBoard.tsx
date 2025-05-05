@@ -29,9 +29,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   ]);
 
   const [scores, setScores] = React.useState({
-    x: 0,
+    X: 0,
     ties: 0,
-    o: 0,
+    O: 0,
   });
 
   const handleReset = () => {
@@ -100,9 +100,28 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     }
 
     let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
-    isWin
-      ? console.log("This game ends in a win!!!")
-      : console.log("No winner found");
+    if (isWin === true) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        [playerTurn]: prevScores[playerTurn] + 1,
+      }));
+      console.log("This game ends in a win!!!");
+      setBoard(Array(9).fill(null));
+      setWinningCombos([
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ]);
+    }
+
+    // isWin
+    //   ? {console.log("This game ends in a win!!!")}
+    //   : console.log("No winner found");
 
     if (playerTurn === "X") {
       setPlayerTurn("O");
@@ -149,7 +168,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
           <div className={styles.label}>
             X ({player1Mark === "X" ? "You" : gameMode})
           </div>
-          <div className={styles.value}>{scores.x}</div>
+          <div className={styles.value}>{scores.X}</div>
         </div>
         <div className={styles.score}>
           <div className={styles.label}>TIES</div>
@@ -159,7 +178,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
           <div className={styles.label}>
             O ({player1Mark === "O" ? "YOU" : gameMode})
           </div>
-          <div className={styles.value}>{scores.o}</div>
+          <div className={styles.value}>{scores.O}</div>
         </div>
       </div>
     </div>
