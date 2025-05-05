@@ -61,6 +61,19 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return eliminateCombos(wholeArray);
   }
 
+  function checkWinner(wholeArray: ArrayOfArrays, mark: mark) {
+    for (let i = 0; i < wholeArray.length; i++) {
+      let innerArray = wholeArray[i];
+      if (
+        innerArray[0] === mark &&
+        innerArray[1] === mark &&
+        innerArray[2] === mark
+      )
+        return true;
+    }
+    return false;
+  }
+
   const handleCellClick = (index: number) => {
     if (board[index] !== null) return;
     const newBoard = [...board];
@@ -85,6 +98,11 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       console.log("This game ends in a tie.");
       //setScore here, add tie
     }
+
+    let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
+    isWin
+      ? console.log("This game ends in a win!!!")
+      : console.log("No winner found");
 
     if (playerTurn === "X") {
       setPlayerTurn("O");
