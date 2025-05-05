@@ -81,6 +81,11 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       newBoard
     );
 
+    if (newWinningCombos.length === 0) {
+      console.log("This game ends in a tie.");
+      //setScore here, add tie
+    }
+
     if (playerTurn === "X") {
       setPlayerTurn("O");
     } else {
