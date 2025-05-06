@@ -74,6 +74,22 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return false;
   }
 
+  function resetRound() {
+    console.log(" resetRound() - New Round Starting");
+    setBoard(Array(9).fill(null));
+    setWinningCombos([
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ]);
+    return;
+  }
+
   const handleCellClick = (index: number) => {
     if (board[index] !== null) return;
     const newBoard = [...board];
@@ -94,45 +110,26 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       newBoard
     );
 
+    // check for tie
     if (newWinningCombos.length === 0) {
       setScores((prevScores) => ({
         ...prevScores,
         ties: prevScores.ties + 1,
       }));
-      console.log("This game ends in a tie.");
-      setBoard(Array(9).fill(null));
-      setWinningCombos([
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-      ]);
+      resetRound();
     }
 
+    // check for win
     let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
     if (isWin === true) {
       setScores((prevScores) => ({
         ...prevScores,
         [playerTurn]: prevScores[playerTurn] + 1,
       }));
-      console.log("This game ends in a win!!!");
-      setBoard(Array(9).fill(null));
-      setWinningCombos([
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-      ]);
+      resetRound();
     }
 
+    //switch turns
     if (playerTurn === "X") {
       setPlayerTurn("O");
     } else {
