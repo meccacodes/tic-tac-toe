@@ -95,8 +95,22 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     );
 
     if (newWinningCombos.length === 0) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        ties: prevScores.ties + 1,
+      }));
       console.log("This game ends in a tie.");
-      //setScore here, add tie
+      setBoard(Array(9).fill(null));
+      setWinningCombos([
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ]);
     }
 
     let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
@@ -118,10 +132,6 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         [2, 4, 6],
       ]);
     }
-
-    // isWin
-    //   ? {console.log("This game ends in a win!!!")}
-    //   : console.log("No winner found");
 
     if (playerTurn === "X") {
       setPlayerTurn("O");
