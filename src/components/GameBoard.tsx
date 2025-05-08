@@ -2,21 +2,36 @@ import React from "react";
 import styles from "./GameBoard.module.css";
 
 type GameBoardProps = {
-  playerMark: "X" | "O";
-  gameMode: "CPU" | "PLAYER";
+  player1Mark: "X" | "O";
+  gameMode: "CPU" | "PLAYER2";
 };
 
-const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
-  const [playerTurn, setPlayerTurn] = React.useState<string>(playerMark);
-  console.log(playerTurn);
+type mark = "X" | "O";
+type Space = "X" | "O" | number;
+type InnerArray = [Space, Space, Space];
+type ArrayOfArrays = InnerArray[];
+
+const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
+  const [playerTurn, setPlayerTurn] = React.useState<mark>("X");
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
 
+  const [winningCombos, setWinningCombos] = React.useState<ArrayOfArrays>([
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ]);
+
   const [scores, setScores] = React.useState({
-    x: 3,
-    ties: 8,
-    o: 5,
+    X: 0,
+    ties: 0,
+    O: 0,
   });
 
   const handleReset = () => {
@@ -24,20 +39,100 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
     location.reload();
   };
 
+  function eliminateCombos(wholeArray: ArrayOfArrays) {
+    return wholeArray.filter((innerArray) => {
+      return !(innerArray.includes("X") && innerArray.includes("O"));
+    });
+  }
+
+  function updateWinningCombos(
+    wholeArray: ArrayOfArrays,
+    newSpace: number,
+    mark: "X" | "O"
+  ) {
+    wholeArray.forEach((innerArray, index) => {
+      innerArray.forEach((num, i) => {
+        if (num === newSpace) {
+          wholeArray[index][i] = mark;
+        }
+      });
+    });
+
+    return eliminateCombos(wholeArray);
+  }
+
+  function checkWinner(wholeArray: ArrayOfArrays, mark: mark) {
+    for (let i = 0; i < wholeArray.length; i++) {
+      let innerArray = wholeArray[i];
+      if (
+        innerArray[0] === mark &&
+        innerArray[1] === mark &&
+        innerArray[2] === mark
+      )
+        return true;
+    }
+    return false;
+  }
+
+  function resetRound() {
+    console.log(" resetRound() - New Round Starting");
+    setBoard(Array(9).fill(null));
+    setWinningCombos([
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ]);
+    setPlayerTurn("X");
+    return;
+  }
+
   const handleCellClick = (index: number) => {
-    console.log(board[index]);
     if (board[index] !== null) return;
     const newBoard = [...board];
     newBoard[index] = playerTurn;
-    console.log(`playerMark before turn: ${playerTurn}`);
-    if (playerTurn === "X") {
+    console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
+    setBoard(newBoard);
+
+    const newWinningCombos = updateWinningCombos(
+      winningCombos,
+      index,
+      playerTurn
+    );
+    setWinningCombos(newWinningCombos);
+    console.log(
+      "After updating, new winning combos: ",
+      newWinningCombos,
+      " and the new game board: ",
+      newBoard
+    );
+
+    // check for tie
+    if (newWinningCombos.length === 0) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        ties: prevScores.ties + 1,
+      }));
+      resetRound();
+    }
+
+    // check for win
+    let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
+    if (isWin === true) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        [playerTurn]: prevScores[playerTurn] + 1,
+      }));
+      resetRound();
+    } else if (playerTurn === "X") {
       setPlayerTurn("O");
     } else {
       setPlayerTurn("X");
     }
-    console.log(`playerTurn after turn: ${playerTurn}`);
-    setBoard(newBoard);
-    console.log(newBoard);
   };
 
   return (
@@ -76,9 +171,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
       <div className={styles.scores}>
         <div className={styles.score}>
           <div className={styles.label}>
-            X ({gameMode === "CPU" ? "You" : "Player 1"})
+            X ({player1Mark === "X" ? "You" : gameMode})
           </div>
-          <div className={styles.value}>{scores.x}</div>
+          <div className={styles.value}>{scores.X}</div>
         </div>
         <div className={styles.score}>
           <div className={styles.label}>TIES</div>
@@ -86,9 +181,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ playerMark, gameMode }) => {
         </div>
         <div className={styles.score}>
           <div className={styles.label}>
-            O ({gameMode === "CPU" ? "CPU" : "Player 2"})
+            O ({player1Mark === "O" ? "YOU" : gameMode})
           </div>
-          <div className={styles.value}>{scores.o}</div>
+          <div className={styles.value}>{scores.O}</div>
         </div>
       </div>
     </div>

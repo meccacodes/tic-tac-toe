@@ -8,15 +8,15 @@ import styles from "./page.module.css";
 export default function Home() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameConfig, setGameConfig] = useState<{
-    playerMark: "X" | "O";
-    gameMode: "CPU" | "PLAYER";
+    player1Mark: "X" | "O";
+    gameMode: "CPU" | "PLAYER2";
   } | null>(null);
 
   const handleGameStart = (
-    playerMark: "X" | "O",
-    gameMode: "CPU" | "PLAYER"
+    player1Mark: "X" | "O",
+    gameMode: "CPU" | "PLAYER2"
   ) => {
-    setGameConfig({ playerMark, gameMode });
+    setGameConfig({ player1Mark, gameMode });
     setGameStarted(true);
   };
 
@@ -26,7 +26,7 @@ export default function Home() {
         <NewGameMenu onGameStart={handleGameStart} />
       ) : (
         <GameBoard
-          playerMark={gameConfig.playerMark}
+          player1Mark={gameConfig.player1Mark}
           gameMode={gameConfig.gameMode}
         />
       )}

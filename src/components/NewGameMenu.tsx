@@ -5,13 +5,13 @@ import styles from "./NewGameMenu.module.css";
 import pageStyles from "../app/page.module.css";
 
 interface NewGameMenuProps {
-  onGameStart: (playerMark: "X" | "O", gameMode: "CPU" | "PLAYER") => void;
+  onGameStart: (playerMark1: "X" | "O", gameMode: "CPU" | "PLAYER2") => void;
 }
 
 export default function NewGameMenu({ onGameStart }: NewGameMenuProps) {
   const [selectedMark, setSelectedMark] = useState<"X" | "O">("X");
 
-  const handleGameStart = (gameMode: "CPU" | "PLAYER") => {
+  const handleGameStart = (gameMode: "CPU" | "PLAYER2") => {
     onGameStart(selectedMark, gameMode);
   };
 
@@ -65,7 +65,7 @@ export default function NewGameMenu({ onGameStart }: NewGameMenuProps) {
         </button>
         <button
           className={`${pageStyles.buttonPrimary} ${pageStyles.turquoise}`}
-          onClick={() => handleGameStart("PLAYER")}
+          onClick={() => handleGameStart("PLAYER2")}
         >
           NEW GAME (VS PLAYER)
         </button>
