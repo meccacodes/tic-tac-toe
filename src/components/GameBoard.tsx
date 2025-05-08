@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./GameBoard.module.css";
+import Modal from "./Modal";
 
 type GameBoardProps = {
   player1Mark: "X" | "O";
@@ -33,6 +34,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     ties: 0,
     O: 0,
   });
+
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [winner, setWinner] = React.useState<"X" | "O" | null>(null);
 
   const handleReset = () => {
     setBoard(Array(9).fill(null));
@@ -92,7 +96,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   }
 
   const handleCellClick = (index: number) => {
-    if (board[index] !== null) return;
+    if (board[index] !== null || modalOpen) return;
     const newBoard = [...board];
     newBoard[index] = playerTurn;
     console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
@@ -111,15 +115,6 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       newBoard
     );
 
-    // check for tie
-    if (newWinningCombos.length === 0) {
-      setScores((prevScores) => ({
-        ...prevScores,
-        ties: prevScores.ties + 1,
-      }));
-      resetRound();
-    }
-
     // check for win
     let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
     if (isWin === true) {
@@ -127,16 +122,47 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         ...prevScores,
         [playerTurn]: prevScores[playerTurn] + 1,
       }));
-      resetRound();
-    } else if (playerTurn === "X") {
-      setPlayerTurn("O");
-    } else {
-      setPlayerTurn("X");
+      setWinner(playerTurn);
+      setModalOpen(true);
+      return;
     }
+
+    // check for tie
+    if (newWinningCombos.length === 0) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        ties: prevScores.ties + 1,
+      }));
+      setWinner(null);
+      setModalOpen(true);
+      return;
+    }
+
+    setPlayerTurn(playerTurn === "X" ? "O" : "X");
+  };
+
+  const handleQuit = () => {
+    setModalOpen(false);
+    handleReset();
+  };
+
+  const handleNextRound = () => {
+    setModalOpen(false);
+    setWinner(null);
+    resetRound();
   };
 
   return (
     <div className={styles.container}>
+      {modalOpen && (
+        <Modal
+          winner={winner}
+          onQuit={handleQuit}
+          onNextRound={handleNextRound}
+          player1Mark={player1Mark}
+          gameMode={gameMode}
+        />
+      )}
       <div className={styles.header}>
         <div className={styles.marks}>
           <div className={styles.logo}>
@@ -157,6 +183,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
             key={index}
             className={styles.cell}
             onClick={() => handleCellClick(index)}
+            disabled={modalOpen}
           >
             {cell === "X" && (
               <img className={styles.x} src="/assets/icon-x.svg" alt="X" />

@@ -1,0 +1,114 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 16, 32, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--color-dark-navy);
+  width: 100%;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subtext {
+  color: var(--color-silver);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.x {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) saturate(100%) invert(62%) sepia(99%) saturate(747%)
+    hue-rotate(134deg) brightness(95%) contrast(92%);
+}
+
+.o {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) saturate(100%) invert(81%) sepia(41%) saturate(749%)
+    hue-rotate(353deg) brightness(99%) contrast(97%);
+}
+
+.title {
+  color: var(--color-silver);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.titleX {
+  color: var(--color-light-blue);
+}
+
+.titleO {
+  color: var(--color-light-yellow);
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.quit {
+  background: var(--color-silver);
+  color: var(--color-dark-navy);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quit:hover {
+  background: var(--color-silver-hover);
+}
+
+.nextRound {
+  background: var(--color-light-yellow);
+  color: var(--color-dark-navy);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nextRound:hover {
+  background: var(--color-light-yellow-hover);
+}
