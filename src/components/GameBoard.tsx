@@ -17,6 +17,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const [board, setBoard] = React.useState<(string | null)[]>(
     Array(9).fill(null)
   );
+  const [hoveredCell, setHoveredCell] = React.useState<number | null>(null);
 
   const [winningCombos, setWinningCombos] = React.useState<ArrayOfArrays>([
     [0, 1, 2],
@@ -184,12 +185,25 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
             className={styles.cell}
             onClick={() => handleCellClick(index)}
             disabled={modalOpen}
+            onMouseEnter={() => setHoveredCell(index)}
+            onMouseLeave={() => setHoveredCell(null)}
           >
             {cell === "X" && (
               <img className={styles.x} src="/assets/icon-x.svg" alt="X" />
             )}
             {cell === "O" && (
               <img className={styles.o} src="/assets/icon-o.svg" alt="O" />
+            )}
+            {cell === null && hoveredCell === index && (
+              <img
+                className={styles.outline}
+                src={
+                  playerTurn === "X"
+                    ? "/assets/icon-x-outline.svg"
+                    : "/assets/icon-o-outline.svg"
+                }
+                alt={`${playerTurn} outline`}
+              />
             )}
           </button>
         ))}
