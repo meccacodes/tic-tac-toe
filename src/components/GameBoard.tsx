@@ -128,11 +128,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         [playerTurn]: prevScores[playerTurn] + 1,
       }));
       resetRound();
-    } else if (playerTurn === "X") {
-      setPlayerTurn("O");
-    } else {
-      setPlayerTurn("X");
-    }
+    } else setPlayerTurn((prev) => (prev === "X" ? "O" : "X"));
   };
 
   return (
