@@ -65,6 +65,7 @@ const Modal: React.FC<ModalProps> = ({
           <button className={styles.nextRound} onClick={onNextRound}>
             NEXT ROUND
           </button>
+          <button className="buttonPrimary yellow"></button>
         </div>
       </div>
     </div>

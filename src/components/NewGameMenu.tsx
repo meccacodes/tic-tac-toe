@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "./NewGameMenu.module.css";
-import pageStyles from "../app/page.module.css";
+import "../app/globals.css";
 
 interface NewGameMenuProps {
   onGameStart: (playerMark1: "X" | "O", gameMode: "CPU" | "PLAYER2") => void;
@@ -58,13 +58,13 @@ export default function NewGameMenu({ onGameStart }: NewGameMenuProps) {
 
       <div className={styles.newGameButtons}>
         <button
-          className={`${pageStyles.buttonPrimary} ${pageStyles.yellow}`}
+          className="buttonPrimary yellow"
           onClick={() => handleGameStart("CPU")}
         >
           NEW GAME (VS CPU)
         </button>
         <button
-          className={`${pageStyles.buttonPrimary} ${pageStyles.turquoise}`}
+          className="buttonPrimary turquoise"
           onClick={() => handleGameStart("PLAYER2")}
         >
           NEW GAME (VS PLAYER)

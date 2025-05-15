@@ -77,21 +77,3 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
-.newGameButtons button.yellow {
-  background-color: var(--color-light-yellow);
-  color: var(--color-dark-navy);
-}
-
-.newGameButtons button.yellow:hover {
-  background-color: var(--color-light-yellow-hover);
-}
-
-.newGameButtons button.turquoise {
-  background-color: var(--color-light-blue);
-  color: var(--color-dark-navy);
-}
-
-.newGameButtons button.turquoise:hover {
-  background-color: var(--color-light-blue-hover);
-}
