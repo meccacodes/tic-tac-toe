@@ -104,7 +104,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return;
   }
 
-  const handleCellClick = (index: number) => {
+  function makeMove(index: number) {
     if (board[index] !== null) return;
 
     updateBoard(board, index, playerTurn);
@@ -134,6 +134,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       }));
       resetRound();
     } else setPlayerTurn((prev) => (prev === "X" ? "O" : "X"));
+  }
+
+  const handleCellClick = (index: number) => {
+    makeMove(index);
   };
 
   return (
