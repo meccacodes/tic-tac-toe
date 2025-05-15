@@ -89,7 +89,6 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   }
 
   function generatePick() {
-    console.log("in generatePick, board is: ", board);
     const pick = board.findIndex((item) => item === null);
     return pick;
   }
@@ -146,6 +145,16 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const handleCellClick = (index: number) => {
     makeMove(index);
   };
+
+  // This will only happen if the CPU starts off the game
+  if (
+    gameMode === "CPU" &&
+    player1Mark === "O" &&
+    board.every((item) => item === null)
+  ) {
+    console.log("computer went first and picked 4");
+    makeMove(4);
+  }
 
   useEffect(() => {
     if (gameMode === "CPU" && player1Mark !== playerTurn) {
