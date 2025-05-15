@@ -63,8 +63,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         }
       });
     });
-
-    return eliminateCombos(wholeArray);
+    const newCombos = eliminateCombos(wholeArray);
+    setWinningCombos(newCombos);
+    return newCombos;
   }
 
   function checkTie(wholeArray: ArrayOfArrays) {
@@ -106,14 +107,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const handleCellClick = (index: number) => {
     if (board[index] !== null) return;
 
-    const newBoard = updateBoard(board, index, playerTurn);
+    updateBoard(board, index, playerTurn);
 
     const newWinningCombos = updateWinningCombos(
       winningCombos,
       index,
       playerTurn
     );
-    setWinningCombos(newWinningCombos);
 
     // check for tie
     const isTie: boolean = checkTie(newWinningCombos);
