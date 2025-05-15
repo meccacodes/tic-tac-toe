@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./GameBoard.module.css";
 
 type GameBoardProps = {
@@ -139,6 +139,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   const handleCellClick = (index: number) => {
     makeMove(index);
   };
+
+  useEffect(() => {
+    if (gameMode === "CPU" && player1Mark !== playerTurn) {
+      console.log("CPU needs to make a move");
+    }
+  }, [playerTurn]);
 
   return (
     <div className={styles.container}>
