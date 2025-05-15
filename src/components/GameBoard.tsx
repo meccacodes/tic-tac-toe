@@ -121,7 +121,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return;
   }
 
-  const handleCellClick = (index: number) => {
+  function makeMove(index: number) {
     if (board[index] !== null || modalOpen) return;
 
     updateBoard(board, index, playerTurn);
@@ -157,7 +157,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     }
 
     setPlayerTurn(playerTurn === "X" ? "O" : "X");
-  };
+  }
 
   const handleQuit = () => {
     setModalOpen(false);
@@ -168,6 +168,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     setModalOpen(false);
     setWinner(null);
     resetRound();
+  };
+
+  const handleCellClick = (index: number) => {
+    makeMove(index);
   };
 
   return (
