@@ -1,0 +1,122 @@
+:root {
+  --color-dark-navy: #1a2a33;
+  --color-semi-dark-navy: #1f3641;
+  --color-light-blue: #31c3bd;
+  --color-light-blue-hover: #65e9e4;
+  --color-light-yellow: #f2b137;
+  --color-light-yellow-hover: #ffc860;
+  --color-silver: #a8bfc9;
+  --color-silver-hover: #dbe8ed;
+  --color-silver-dark: #6b8997;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-dark-navy);
+  color: var(--color-silver);
+}
+
+.heading-s {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-silver);
+  text-align: center;
+}
+
+.heading-l {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-silver);
+  text-align: center;
+}
+
+.heading-xs {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-silver);
+  opacity: 0.5;
+  text-align: center;
+}
+
+.buttonPrimary {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 15px;
+  padding: 17px 30px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+  margin: 8px 0;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.yellow {
+  background-color: var(--color-light-yellow);
+  color: var(--color-dark-navy);
+  box-shadow: 0 8px 0 #cc8b13;
+}
+
+.yellow:hover {
+  background-color: var(--color-light-yellow-hover);
+}
+
+.silver {
+  background-color: var(--color-silver);
+  color: var(--color-dark-navy);
+  box-shadow: 0 8px 0 var(--color-silver-dark);
+}
+
+.silver:hover {
+  background-color: var(--color-silver-hover);
+}
+
+.turquoise {
+  background-color: var(--color-light-blue);
+  color: var(--color-dark-navy);
+  box-shadow: 0 8px 0 #118c87;
+}
+
+.turquoise:hover {
+  background-color: var(--color-light-blue-hover);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 16, 32, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--color-dark-navy);
+  width: 100%;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
