@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./GameBoard.module.css";
 import Modal from "./Modal";
 import ResetModal from "./ResetModal";
+import { cp } from "fs";
 
 type GameBoardProps = {
   player1Mark: "X" | "O";
@@ -104,6 +105,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return false;
   }
 
+  function generatePick() {
+    console.log("in generatePick, board is: ", board);
+    const pick = board.findIndex((item) => item === null);
+    return pick;
+  }
+
   function resetRound() {
     console.log(" resetRound() - New Round Starting");
     setBoard(Array(9).fill(null));
@@ -177,6 +184,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   useEffect(() => {
     if (gameMode === "CPU" && player1Mark !== playerTurn) {
       console.log("CPU needs to make a move");
+      const cpuPick = generatePick();
+      console.log("CPU picked: ", cpuPick);
+      makeMove(cpuPick);
     }
   }, [playerTurn]);
 
