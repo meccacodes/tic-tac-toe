@@ -7,6 +7,7 @@
   --color-light-yellow-hover: #ffc860;
   --color-silver: #a8bfc9;
   --color-silver-hover: #dbe8ed;
+  --color-silver-dark: #6b8997;
 }
 
 * {
@@ -25,6 +26,13 @@ body {
 
 .heading-s {
   font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-silver);
+  text-align: center;
+}
+
+.heading-l {
+  font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-silver);
   text-align: center;
@@ -62,6 +70,16 @@ body {
   background-color: var(--color-light-yellow-hover);
 }
 
+.silver {
+  background-color: var(--color-silver);
+  color: var(--color-dark-navy);
+  box-shadow: 0 8px 0 var(--color-silver-dark);
+}
+
+.silver:hover {
+  background-color: var(--color-silver-hover);
+}
+
 .turquoise {
   background-color: var(--color-light-blue);
   color: var(--color-dark-navy);
@@ -70,4 +88,35 @@ body {
 
 .turquoise:hover {
   background-color: var(--color-light-blue-hover);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 16, 32, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--color-dark-navy);
+  width: 100%;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }

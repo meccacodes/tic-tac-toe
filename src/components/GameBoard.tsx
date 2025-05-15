@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./GameBoard.module.css";
 import Modal from "./Modal";
+import ResetModal from "./ResetModal";
 
 type GameBoardProps = {
   player1Mark: "X" | "O";
@@ -38,10 +39,21 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
 
   const [modalOpen, setModalOpen] = React.useState(false);
   const [winner, setWinner] = React.useState<"X" | "O" | null>(null);
+  const [resetModalOpen, setResetModalOpen] = React.useState(false);
 
   const handleReset = () => {
+    setResetModalOpen(true);
+  };
+
+  const handleConfirmReset = () => {
     setBoard(Array(9).fill(null));
+    // TODO: Consider a less disruptive way to reset, e.g., navigating to main menu
     location.reload();
+    setResetModalOpen(false);
+  };
+
+  const handleCancelReset = () => {
+    setResetModalOpen(false);
   };
 
   function eliminateCombos(wholeArray: ArrayOfArrays) {
@@ -162,6 +174,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
           onNextRound={handleNextRound}
           player1Mark={player1Mark}
           gameMode={gameMode}
+        />
+      )}
+      {resetModalOpen && (
+        <ResetModal
+          onQuit={handleCancelReset}
+          handleReset={handleConfirmReset}
         />
       )}
       <div className={styles.header}>

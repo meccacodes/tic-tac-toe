@@ -1,4 +1,5 @@
 import React from "react";
+import "../app/globals.css";
 import styles from "./Modal.module.css";
 
 type ModalProps = {
@@ -41,8 +42,8 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.modal}>
+    <div className="overlay">
+      <div className="modal">
         {winner !== null && <div className={styles.subtext}>{subtext}</div>}
         <div className={styles.titleRow}>
           {winner !== null && <span className={styles.icon}>{icon}</span>}
@@ -59,13 +60,12 @@ const Modal: React.FC<ModalProps> = ({
           </span>
         </div>
         <div className={styles.buttons}>
-          <button className={styles.quit} onClick={onQuit}>
+          <button className="buttonPrimary silver" onClick={onQuit}>
             QUIT
           </button>
-          <button className={styles.nextRound} onClick={onNextRound}>
+          <button className="buttonPrimary yellow" onClick={onNextRound}>
             NEXT ROUND
           </button>
-          <button className="buttonPrimary yellow"></button>
         </div>
       </div>
     </div>
