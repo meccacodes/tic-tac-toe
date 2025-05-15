@@ -8,16 +8,15 @@ type GameBoardProps = {
   gameMode: "CPU" | "PLAYER2";
 };
 
-type mark = "X" | "O";
+type Mark = "X" | "O";
+type Cell = "X" | "O" | null;
 type Space = "X" | "O" | number;
 type InnerArray = [Space, Space, Space];
 type ArrayOfArrays = InnerArray[];
 
 const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
-  const [playerTurn, setPlayerTurn] = React.useState<mark>("X");
-  const [board, setBoard] = React.useState<(string | null)[]>(
-    Array(9).fill(null)
-  );
+  const [playerTurn, setPlayerTurn] = React.useState<Mark>("X");
+  const [board, setBoard] = React.useState<Cell[]>(Array(9).fill(null));
   const [hoveredCell, setHoveredCell] = React.useState<number | null>(null);
 
   const [winningCombos, setWinningCombos] = React.useState<ArrayOfArrays>([
@@ -56,6 +55,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     setResetModalOpen(false);
   };
 
+  function updateBoard(oldBoard: Array<Cell>, index: number, mark: Mark) {
+    const newBoard = [...oldBoard];
+    newBoard[index] = mark;
+    setBoard(newBoard);
+    return newBoard;
+  }
+
   function eliminateCombos(wholeArray: ArrayOfArrays) {
     return wholeArray.filter((innerArray) => {
       return !(innerArray.includes("X") && innerArray.includes("O"));
@@ -65,7 +71,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   function updateWinningCombos(
     wholeArray: ArrayOfArrays,
     newSpace: number,
-    mark: "X" | "O"
+    mark: Mark
   ) {
     wholeArray.forEach((innerArray, index) => {
       innerArray.forEach((num, i) => {
@@ -78,7 +84,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return eliminateCombos(wholeArray);
   }
 
-  function checkWinner(wholeArray: ArrayOfArrays, mark: mark) {
+  function checkWinner(wholeArray: ArrayOfArrays, mark: Mark) {
     for (let i = 0; i < wholeArray.length; i++) {
       let innerArray = wholeArray[i];
       if (
@@ -110,10 +116,8 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
 
   const handleCellClick = (index: number) => {
     if (board[index] !== null || modalOpen) return;
-    const newBoard = [...board];
-    newBoard[index] = playerTurn;
-    console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
-    setBoard(newBoard);
+
+    const newBoard = updateBoard(board, index, playerTurn);
 
     const newWinningCombos = updateWinningCombos(
       winningCombos,
