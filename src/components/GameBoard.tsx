@@ -84,6 +84,12 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return eliminateCombos(wholeArray);
   }
 
+  function checkTie(wholeArray: ArrayOfArrays) {
+    if (wholeArray.length === 0) {
+      return true;
+    } else return false;
+  }
+
   function checkWinner(wholeArray: ArrayOfArrays, mark: Mark) {
     for (let i = 0; i < wholeArray.length; i++) {
       let innerArray = wholeArray[i];
@@ -125,32 +131,27 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       playerTurn
     );
     setWinningCombos(newWinningCombos);
-    console.log(
-      "After updating, new winning combos: ",
-      newWinningCombos,
-      " and the new game board: ",
-      newBoard
-    );
+
+    // check for tie
+    const isTie: boolean = checkTie(newWinningCombos);
+    if (isTie === true) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        ties: prevScores.ties + 1,
+      }));
+      setWinner(null);
+      setModalOpen(true);
+      resetRound();
+    }
 
     // check for win
-    let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
+    const isWin: boolean = checkWinner(newWinningCombos, playerTurn);
     if (isWin === true) {
       setScores((prevScores) => ({
         ...prevScores,
         [playerTurn]: prevScores[playerTurn] + 1,
       }));
       setWinner(playerTurn);
-      setModalOpen(true);
-      return;
-    }
-
-    // check for tie
-    if (newWinningCombos.length === 0) {
-      setScores((prevScores) => ({
-        ...prevScores,
-        ties: prevScores.ties + 1,
-      }));
-      setWinner(null);
       setModalOpen(true);
       return;
     }
