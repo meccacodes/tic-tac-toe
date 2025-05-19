@@ -1,23 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./GameBoard.module.css";
 import Modal from "./Modal";
 import ResetModal from "./ResetModal";
+import { cp } from "fs";
 
 type GameBoardProps = {
   player1Mark: "X" | "O";
   gameMode: "CPU" | "PLAYER2";
 };
 
-type mark = "X" | "O";
+type Mark = "X" | "O";
+type Cell = "X" | "O" | null;
 type Space = "X" | "O" | number;
 type InnerArray = [Space, Space, Space];
 type ArrayOfArrays = InnerArray[];
 
 const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
-  const [playerTurn, setPlayerTurn] = React.useState<mark>("X");
-  const [board, setBoard] = React.useState<(string | null)[]>(
-    Array(9).fill(null)
-  );
+  const [playerTurn, setPlayerTurn] = React.useState<Mark>("X");
+  const [board, setBoard] = React.useState<Cell[]>(Array(9).fill(null));
   const [hoveredCell, setHoveredCell] = React.useState<number | null>(null);
 
   const [winningCombos, setWinningCombos] = React.useState<ArrayOfArrays>([
@@ -56,6 +56,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     setResetModalOpen(false);
   };
 
+  function updateBoard(oldBoard: Array<Cell>, index: number, mark: Mark) {
+    const newBoard = [...oldBoard];
+    newBoard[index] = mark;
+    setBoard(newBoard);
+    return newBoard;
+  }
+
   function eliminateCombos(wholeArray: ArrayOfArrays) {
     return wholeArray.filter((innerArray) => {
       return !(innerArray.includes("X") && innerArray.includes("O"));
@@ -65,7 +72,7 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
   function updateWinningCombos(
     wholeArray: ArrayOfArrays,
     newSpace: number,
-    mark: "X" | "O"
+    mark: Mark
   ) {
     wholeArray.forEach((innerArray, index) => {
       innerArray.forEach((num, i) => {
@@ -74,11 +81,18 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         }
       });
     });
-
-    return eliminateCombos(wholeArray);
+    const newCombos = eliminateCombos(wholeArray);
+    setWinningCombos(newCombos);
+    return newCombos;
   }
 
-  function checkWinner(wholeArray: ArrayOfArrays, mark: mark) {
+  function checkTie(wholeArray: ArrayOfArrays) {
+    if (wholeArray.length === 0) {
+      return true;
+    } else return false;
+  }
+
+  function checkWinner(wholeArray: ArrayOfArrays, mark: Mark) {
     for (let i = 0; i < wholeArray.length; i++) {
       let innerArray = wholeArray[i];
       if (
@@ -89,6 +103,11 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
         return true;
     }
     return false;
+  }
+
+  function generatePick() {
+    const pick = board.findIndex((item) => item === null);
+    return pick;
   }
 
   function resetRound() {
@@ -108,28 +127,31 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     return;
   }
 
-  const handleCellClick = (index: number) => {
+  function makeMove(index: number) {
     if (board[index] !== null || modalOpen) return;
-    const newBoard = [...board];
-    newBoard[index] = playerTurn;
-    console.log(`Team: ${playerTurn}, just clicked cell : ${index}`);
-    setBoard(newBoard);
+
+    updateBoard(board, index, playerTurn);
 
     const newWinningCombos = updateWinningCombos(
       winningCombos,
       index,
       playerTurn
     );
-    setWinningCombos(newWinningCombos);
-    console.log(
-      "After updating, new winning combos: ",
-      newWinningCombos,
-      " and the new game board: ",
-      newBoard
-    );
+
+    // check for tie
+    const isTie: boolean = checkTie(newWinningCombos);
+    if (isTie === true) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        ties: prevScores.ties + 1,
+      }));
+      setWinner(null);
+      setModalOpen(true);
+      resetRound();
+    }
 
     // check for win
-    let isWin: boolean = checkWinner(newWinningCombos, playerTurn);
+    const isWin: boolean = checkWinner(newWinningCombos, playerTurn);
     if (isWin === true) {
       setScores((prevScores) => ({
         ...prevScores,
@@ -140,19 +162,8 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
       return;
     }
 
-    // check for tie
-    if (newWinningCombos.length === 0) {
-      setScores((prevScores) => ({
-        ...prevScores,
-        ties: prevScores.ties + 1,
-      }));
-      setWinner(null);
-      setModalOpen(true);
-      return;
-    }
-
     setPlayerTurn(playerTurn === "X" ? "O" : "X");
-  };
+  }
 
   const handleQuit = () => {
     setModalOpen(false);
@@ -164,6 +175,29 @@ const GameBoard: React.FC<GameBoardProps> = ({ player1Mark, gameMode }) => {
     setWinner(null);
     resetRound();
   };
+
+  const handleCellClick = (index: number) => {
+    makeMove(index);
+  };
+
+  // This will only happen if the CPU starts off the game
+  if (
+    gameMode === "CPU" &&
+    player1Mark === "O" &&
+    board.every((item) => item === null)
+  ) {
+    console.log("computer went first and picked 4");
+    makeMove(4);
+  }
+
+  useEffect(() => {
+    if (gameMode === "CPU" && player1Mark !== playerTurn) {
+      console.log("CPU needs to make a move");
+      const cpuPick = generatePick();
+      console.log("CPU picked: ", cpuPick);
+      makeMove(cpuPick);
+    }
+  }, [playerTurn]);
 
   return (
     <div className={styles.container}>
